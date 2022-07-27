@@ -1,0 +1,12 @@
+services:
+    - name: runtime
+      build:
+        context: .
+        dockerfile: Dockerfile.ca
+      env: []
+      volumeMounts: []
+      limits:
+        cpu: 4
+        memory: 12
+volumes: []
+tasks: []
