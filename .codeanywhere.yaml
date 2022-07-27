@@ -21,7 +21,7 @@ services:
       image: bitnami/phpmyadmin:5
       env:
         - name: DATABASE_HOST
-          value: db
+          value: 127.0.0.1
       volumeMounts: []
       limits:
         cpu: 2
