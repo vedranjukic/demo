@@ -1,0 +1,67 @@
+FROM buildpack-deps:focal
+
+### base ###
+RUN apt update && apt install -y \
+        zip \
+        unzip \
+        bash-completion \
+        build-essential \
+        ninja-build \
+        htop \
+        jq \
+        less \
+        locales \
+        man-db \
+        nano \
+        ripgrep \
+        software-properties-common \
+        sudo \
+        time \
+        emacs-nox \
+        vim \
+        multitail \
+        lsof \
+        ssl-cert \
+        fish \
+        zsh \
+    && locale-gen en_US.UTF-8
+
+ENV LANG=en_US.UTF-8
+
+### Git ###
+RUN add-apt-repository -y ppa:git-core/ppa \
+    && apt install -y git git-lfs
+
+# configure git-lfs
+RUN sudo git lfs install --system
+
+RUN add-apt-repository -y ppa:ondrej/php \
+    && apt install -y \
+    apache2 \
+    nginx \
+    nginx-extras \
+    composer \
+    php8.1 \
+    php8.1-dev \
+    php8.1-bcmath \
+    php8.1-ctype \
+    php8.1-curl \
+    php8.1-gd \
+    php8.1-intl \
+    php8.1-mbstring \
+    php8.1-mysql \
+    php8.1-pgsql \
+    php8.1-sqlite3 \
+    php8.1-tokenizer \
+    php8.1-xml \
+    php8.1-zip \
+    && mkdir -p /var/run/nginx \
+    && ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load \
+    && chown -R codeany:codeany /etc/apache2 /var/run/apache2 /var/lock/apache2 /var/log/apache2 \
+    && chown -R codeany:codeany /etc/nginx /var/run/nginx /var/lib/nginx/ /var/log/nginx/
+COPY --chown=codeany:codeany apache2/ /etc/apache2/
+COPY --chown=codeany:codeany nginx /etc/nginx/
+
+## The directory relative to your git repository that will be served by Apache / Nginx
+ENV APACHE_DOCROOT_IN_REPO="public"
+ENV NGINX_DOCROOT_IN_REPO="public"
