@@ -40,7 +40,6 @@ RUN add-apt-repository -y ppa:ondrej/php \
     apache2 \
     nginx \
     nginx-extras \
-    composer \
     php8.1 \
     php8.1-dev \
     php8.1-bcmath \
@@ -56,12 +55,17 @@ RUN add-apt-repository -y ppa:ondrej/php \
     php8.1-xml \
     php8.1-zip \
     && mkdir -p /var/run/nginx \
-    && ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load \
-    && chown -R codeany:codeany /etc/apache2 /var/run/apache2 /var/lock/apache2 /var/log/apache2 \
-    && chown -R codeany:codeany /etc/nginx /var/run/nginx /var/lib/nginx/ /var/log/nginx/
-COPY --chown=codeany:codeany apache2/ /etc/apache2/
-COPY --chown=codeany:codeany nginx /etc/nginx/
+    && ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
 ## The directory relative to your git repository that will be served by Apache / Nginx
 ENV APACHE_DOCROOT_IN_REPO="public"
 ENV NGINX_DOCROOT_IN_REPO="public"
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php composer-setup.php && \
+    php -r "unlink('composer-setup.php');" && \
+    mv composer.phar /usr/local/bin/composer
+
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash && \
+    apt install symfony-cli -y
