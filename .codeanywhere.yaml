@@ -13,7 +13,9 @@ services:
       env:
         - name: MYSQL_ROOT_PASSWORD
           value: example
-      volumeMounts: []
+      volumeMounts:
+        - volumeName: db-data
+          path: /var/lib/mysql
       limits:
         cpu: 2
         memory: 8
@@ -26,5 +28,7 @@ services:
       limits:
         cpu: 2
         memory: 8
-volumes: []
+volumes:
+  - name: db-data
+    size: 10
 tasks: []
