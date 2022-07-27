@@ -11,7 +11,7 @@ services:
     - name: db
       image: mysql:8
       env:
-        - MYSQL_ROOT_PASSWORD=example
+        MYSQL_ROOT_PASSWORD=example
       volumeMounts: []
       limits:
         cpu: 2
@@ -19,7 +19,7 @@ services:
     - name: phpmyadmin
       image: bitnami/phpmyadmin:5
       env:
-        - DATABASE_HOST=db
+        DATABASE_HOST=db
       volumeMounts: []
       limits:
         cpu: 2
