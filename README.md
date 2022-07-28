@@ -36,6 +36,8 @@ deploy it on Platform.sh, the official Symfony PaaS:
 <a href="https://console.platform.sh/projects/create-project?template=https://raw.githubusercontent.com/symfonycorp/platformsh-symfony-template-metadata/main/template-metadata-demo.yaml&utm_content=symfonycorp&utm_source=github&utm_medium=button&utm_campaign=deploy_on_platform"><img src="https://platform.sh/images/deploy/lg-blue.svg" alt="Deploy on Platform.sh" width="180px" /></a>
 </p>
 
+[Open in Codeanywhere](https://demo.codeanywhere.com/workspace#https://github.com/vedranjukic/demo)
+
 Usage
 -----
 
